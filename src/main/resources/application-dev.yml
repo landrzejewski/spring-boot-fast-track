@@ -1,0 +1,4 @@
+card-number-length: 18
+logging:
+  level:
+    root: debug

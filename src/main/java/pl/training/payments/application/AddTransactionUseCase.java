@@ -1,8 +1,13 @@
 package pl.training.payments.application;
 
+import pl.training.common.aop.Loggable;
+import pl.training.common.aop.Timer;
 import pl.training.payments.domain.*;
 
 import java.util.function.Consumer;
+
+import static pl.training.common.aop.Timer.UnitType.MS;
+import static pl.training.common.aop.Timer.UnitType.NS;
 
 public class AddTransactionUseCase {
 
@@ -18,6 +23,8 @@ public class AddTransactionUseCase {
         this.cardRepository = cardRepository;
     }
 
+    @Loggable
+    @Timer(unitType = NS)
     public TransactionId handle(final CardNumber cardNumber, final Money value, final TransactionType transactionType) {
         var card = findCard(cardNumber);
         var transaction = createTransaction(value, transactionType);

@@ -2,12 +2,15 @@ package pl.training.payments;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import pl.training.payments.adapters.HashMapCardRepository;
 import pl.training.payments.application.*;
 
+// @Profile("default")
 @Configuration
 public class PaymentsConfiguration {
 
+    // @Profile("default")
     // @Scope("prototype")
     @Bean // (initMethod = "", destroyMethod = "", name = {"addCardUseCase", "addCard"})
     public AddCardUseCase addCardUseCase(/*@Qualifier("sequentialCardNumberGenerator")*/ CardNumberGenerator cardNumberGenerator,
