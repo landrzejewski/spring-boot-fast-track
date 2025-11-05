@@ -1,6 +1,7 @@
 package pl.training.payments.application;
 
 import pl.training.common.aop.Loggable;
+import pl.training.common.aop.Retry;
 import pl.training.common.aop.Timer;
 import pl.training.payments.domain.*;
 
@@ -23,6 +24,7 @@ public class AddTransactionUseCase {
         this.cardRepository = cardRepository;
     }
 
+    @Retry
     @Loggable
     @Timer(unitType = NS)
     public TransactionId handle(final CardNumber cardNumber, final Money value, final TransactionType transactionType) {

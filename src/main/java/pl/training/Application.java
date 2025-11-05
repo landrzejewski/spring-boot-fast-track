@@ -50,7 +50,7 @@ public class Application implements ApplicationRunner {
                 .content()
                 .forEach(card -> LOGGER.info(card.toString()));
 
-        getCardUseCase.handle(cardNumber)
+        getCardUseCase.handle(cardNumber.value())
                 .getTransactions()
                 .forEach(t -> LOGGER.info(t.toString()));
     }
