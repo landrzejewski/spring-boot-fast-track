@@ -1,5 +1,6 @@
 package pl.training.payments.adapters;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pl.training.common.Generator;
 import pl.training.payments.application.CardNumberGenerator;
@@ -14,11 +15,7 @@ public final class RandomCardNumberGenerator implements CardNumberGenerator {
     private final Random random = new Random();
     private final int length;
 
-    public RandomCardNumberGenerator() {
-        this(16);
-    }
-
-    public RandomCardNumberGenerator(final int length) {
+    public RandomCardNumberGenerator(@Value("${card-number-length}") final int length) {
         this.length = length;
     }
 

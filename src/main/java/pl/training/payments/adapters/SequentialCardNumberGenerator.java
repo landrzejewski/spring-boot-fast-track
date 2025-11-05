@@ -1,5 +1,6 @@
 package pl.training.payments.adapters;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import pl.training.common.Generator;
 import pl.training.payments.application.CardNumberGenerator;
@@ -14,11 +15,7 @@ public class SequentialCardNumberGenerator implements CardNumberGenerator {
 
     private long counter;
 
-    public SequentialCardNumberGenerator() {
-        this(16);
-    }
-
-    public SequentialCardNumberGenerator(final int length) {
+    public SequentialCardNumberGenerator(@Value("${card-number-length}") final int length) {
         if (length < 0) {
             throw new IllegalArgumentException("Length must be greater than or equal to zero");
         }
