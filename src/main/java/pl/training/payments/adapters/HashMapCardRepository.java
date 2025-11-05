@@ -1,5 +1,6 @@
 package pl.training.payments.adapters;
 
+import org.springframework.stereotype.Component;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
 import pl.training.payments.application.CardRepository;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 public class HashMapCardRepository implements CardRepository {
 
     private final Map<CardNumber, Card> data = new HashMap<>();

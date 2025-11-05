@@ -1,10 +1,12 @@
 package pl.training.payments.application;
 
+import org.springframework.stereotype.Component;
 import pl.training.payments.domain.*;
 import pl.training.payments.domain.Money;
 
 import java.util.function.Consumer;
 
+@Component
 public class AddTransactionUseCase {
 
     private final DateTimeProvider dateTimeProvider;

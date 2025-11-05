@@ -1,11 +1,13 @@
 package pl.training.payments.application;
 
+import org.springframework.stereotype.Component;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 
 import java.time.LocalDate;
 import java.util.Currency;
 
+@Component
 public class AddCardUseCase {
 
     private static final int EXPIRATION_TIME_IN_YEARS = 1;
