@@ -35,7 +35,6 @@ public class Application implements ApplicationRunner {
         this.getCardUseCase = getCardUseCase;
     }
 
-
     static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

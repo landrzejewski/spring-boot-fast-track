@@ -1,10 +1,13 @@
 package pl.training.payments.adapters;
 
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Primary;
+import pl.training.common.Generator;
 import pl.training.payments.application.CardNumberGenerator;
 import pl.training.payments.domain.CardNumber;
 
-@Component
+@Primary
+//@Component
+@Generator("seq")
 public class SequentialCardNumberGenerator implements CardNumberGenerator {
 
     private final int length;

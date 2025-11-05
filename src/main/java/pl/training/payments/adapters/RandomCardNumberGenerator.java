@@ -1,14 +1,22 @@
 package pl.training.payments.adapters;
 
+import org.springframework.stereotype.Component;
+import pl.training.common.Generator;
 import pl.training.payments.application.CardNumberGenerator;
 import pl.training.payments.domain.CardNumber;
 
 import java.util.Random;
 
+//@Component
+@Generator("rnd")
 public final class RandomCardNumberGenerator implements CardNumberGenerator {
 
     private final Random random = new Random();
     private final int length;
+
+    public RandomCardNumberGenerator() {
+        this(16);
+    }
 
     public RandomCardNumberGenerator(final int length) {
         this.length = length;
