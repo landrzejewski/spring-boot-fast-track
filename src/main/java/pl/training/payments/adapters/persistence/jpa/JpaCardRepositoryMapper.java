@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import pl.training.common.component.Mapper;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
+import pl.training.payments.adapters.persistence.TransactionJsonMapper;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 import pl.training.payments.domain.CardNumber;
@@ -16,16 +17,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Mapper
-final class JpaCardRepositoryMapper {
+record JpaCardRepositoryMapper(TransactionJsonMapper jsonMapper) {
 
     private final static TypeReference<List<Transaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {
     };
-
-    private final TransactionJsonMapper jsonMapper;
-
-    JpaCardRepositoryMapper(final TransactionJsonMapper jsonMapper) {
-        this.jsonMapper = jsonMapper;
-    }
 
     CardEntity toEntity(final Card card) {
         var cardEntity = new CardEntity();

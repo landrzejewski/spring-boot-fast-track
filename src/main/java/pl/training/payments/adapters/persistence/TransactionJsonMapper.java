@@ -1,4 +1,4 @@
-package pl.training.payments.adapters.persistence.jpa;
+package pl.training.payments.adapters.persistence;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -12,7 +12,7 @@ import java.util.List;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @Component
-class TransactionJsonMapper {
+public class TransactionJsonMapper {
 
     private final static ObjectMapper JSON_MAPPER = new ObjectMapper()
             .registerModule(new JavaTimeModule())
