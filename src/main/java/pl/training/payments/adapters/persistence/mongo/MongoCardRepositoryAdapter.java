@@ -13,7 +13,6 @@ import pl.training.payments.domain.CardNumber;
 import java.util.Optional;
 
 @Transactional(propagation = Propagation.MANDATORY)
-@Primary
 @Adapter
 class MongoCardRepositoryAdapter implements CardRepository {
 
