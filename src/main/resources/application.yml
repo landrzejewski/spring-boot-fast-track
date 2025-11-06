@@ -19,4 +19,6 @@ spring:
       host: localhost
       port: 27017
       authentication-database: admin
+  messages:
+    basename: exceptions
 card-number-length: 16

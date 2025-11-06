@@ -1,6 +1,7 @@
 package pl.training.payments.adapters.rest;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ final class GetCardRestController {
     }
 
     @GetMapping("{number:\\d{16,19}}")
-    ResponseEntity<GetCardResponse> getCard(@PathVariable final String number) {
+    ResponseEntity<GetCardResponse> getCard(@Validated @PathVariable final String number) {
         var cardNumber = new CardNumber(number);
         var card = getCardUseCase.handle(cardNumber);
         return ResponseEntity.ok(GetCardResponse.from(card));

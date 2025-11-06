@@ -19,7 +19,7 @@ Authorization: Basic YWRtaW46YWRtaW4=
 
 {
   "type": "IN",
-  "amount": 200,
+  "amount": 20000,
   "currencyCode": "PLN"
 }
 
