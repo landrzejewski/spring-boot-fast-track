@@ -26,7 +26,7 @@ final class AddCardTransactionRestController {
     @PostMapping("api/cards/{number:\\d{16,19}}/transactions")
     ResponseEntity<Void> addCardTransaction(
             @PathVariable final String number,
-            @Validated @RequestBody final AddCardTransactionRequest addCardTransactionRequest) {
+            @RequestBody final AddCardTransactionRequest addCardTransactionRequest) {
         var cardNumber = new CardNumber(number);
         var amount = addCardTransactionRequest.money();
         var transactionType = addCardTransactionRequest.transactionType();

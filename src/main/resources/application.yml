@@ -3,6 +3,7 @@ spring:
 #    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
   datasource:
     url: jdbc:postgresql://localhost:5432/payments
     username: admin
