@@ -2,7 +2,7 @@ package pl.training.payments.adapters;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
-import pl.training.common.Generator;
+import pl.training.common.component.Generator;
 import pl.training.payments.application.CardNumberGenerator;
 import pl.training.payments.domain.CardNumber;
 

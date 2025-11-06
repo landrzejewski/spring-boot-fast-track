@@ -1,4 +1,4 @@
-package pl.training.payments.adapters;
+package pl.training.payments.adapters.persistence;
 
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;

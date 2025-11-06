@@ -2,8 +2,7 @@ package pl.training.payments;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import pl.training.payments.adapters.HashMapCardRepository;
+import pl.training.payments.adapters.persistence.HashMapCardRepository;
 import pl.training.payments.application.*;
 
 // @Profile("default")
@@ -30,13 +29,8 @@ public class PaymentsConfiguration {
     }
 
     @Bean
-    public GetCardUseCase getCardUseCase() {
-        return new GetCardUseCase(cardRepository());
-    }
-
-    @Bean
-    public CardRepository cardRepository() {
-        return new HashMapCardRepository();
+    public GetCardUseCase getCardUseCase(CardRepository cardRepository) {
+        return new GetCardUseCase(cardRepository);
     }
 
 }

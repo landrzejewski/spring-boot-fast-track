@@ -1,9 +1,10 @@
 package pl.training.payments.application;
 
-import pl.training.common.aop.MinLength;
+import org.springframework.transaction.annotation.Transactional;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardNumber;
 
+@Transactional
 public class GetCardUseCase {
 
     private final CardRepository cardRepository;
@@ -15,10 +16,6 @@ public class GetCardUseCase {
     public Card handle(final CardNumber cardNumber) {
         return cardRepository.findByNumber(cardNumber)
                 .orElseThrow(CardNotFoundException::new);
-    }
-
-    public Card handle(@MinLength(18) final String cardNumber) {
-        return handle(new CardNumber(cardNumber));
     }
 
 }

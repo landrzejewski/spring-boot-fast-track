@@ -1,8 +1,5 @@
-package pl.training.common;
+package pl.training.common.component;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE, ElementType.FIELD, ElementType.PARAMETER})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Scope("prototype")
-@Lazy
-@Qualifier
 @Component
-public @interface Generator {
+public @interface Adapter {
+
 
     @AliasFor(annotation = Component.class)
     String value() default "";
