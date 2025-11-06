@@ -1,13 +1,14 @@
 package pl.training.payments.application;
 
-import org.springframework.transaction.annotation.Transactional;
+import pl.training.common.aop.Atomic;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 
 import java.time.LocalDate;
 import java.util.Currency;
 
-@Transactional
+//@Transactional
+@Atomic
 public class AddCardUseCase {
 
     private static final int EXPIRATION_TIME_IN_YEARS = 1;

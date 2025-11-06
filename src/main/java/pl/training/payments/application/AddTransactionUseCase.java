@@ -1,12 +1,13 @@
 package pl.training.payments.application;
 
-import org.springframework.transaction.annotation.Transactional;
+import pl.training.common.aop.Atomic;
 import pl.training.common.aop.Loggable;
 import pl.training.payments.domain.*;
 
 import java.util.function.Consumer;
 
-@Transactional
+//@Transactional
+@Atomic
 public class AddTransactionUseCase {
 
     private final DateTimeProvider dateTimeProvider;

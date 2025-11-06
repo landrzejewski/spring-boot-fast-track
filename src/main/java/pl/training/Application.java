@@ -41,18 +41,23 @@ public class Application implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        var cardNumber = addCardUseCase.handle(CURRENCY).getNumber();
+        try {
+            var cardNumber = addCardUseCase.handle(CURRENCY).getNumber();
 
-        addTransactionUseCase.handle(cardNumber, new Money(200.0, CURRENCY), INFLOW);
-        addTransactionUseCase.handle(cardNumber, new Money(100.0, CURRENCY), PAYMENT);
+            addTransactionUseCase.handle(cardNumber, new Money(200.0, CURRENCY), INFLOW);
+            addTransactionUseCase.handle(cardNumber, new Money(100.0, CURRENCY), PAYMENT);
 
-        getCardsUseCase.handle(new PageSpec(0, 10))
-                .content()
-                .forEach(card -> LOGGER.info(card.toString()));
+            getCardsUseCase.handle(new PageSpec(0, 10))
+                    .content()
+                    .forEach(card -> LOGGER.info(card.toString()));
 
-        getCardUseCase.handle(cardNumber)
-                .getTransactions()
-                .forEach(t -> LOGGER.info(t.toString()));
+            getCardUseCase.handle(cardNumber)
+                    .getTransactions()
+                    .forEach(t -> LOGGER.info(t.toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
 }
