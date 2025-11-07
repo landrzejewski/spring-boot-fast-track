@@ -13,13 +13,9 @@ spring:
       maximum-pool-size: 6
   messages:
     basename: exceptions
-#  security:
-#    user:
-#      name: user
-#      password: 123
-#      roles: ADMIN
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8100/realms/training
 card-number-length: 16
-jwt:
-  secret: secretsecret
-api:
-  keys: 12345,67890
