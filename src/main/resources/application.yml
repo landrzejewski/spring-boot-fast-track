@@ -18,4 +18,13 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8100/realms/training
+      client:
+        registration:
+          keycloak:
+            client-id: payments
+            scope:
+              - openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8100/realms/training
 card-number-length: 16
