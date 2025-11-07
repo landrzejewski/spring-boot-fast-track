@@ -13,9 +13,9 @@ import java.security.Principal;
 public class UserRestController {
 
     @GetMapping
-    public UserEntity getCurrentUser(Authentication authentication, Principal principal) {
+    public Object getCurrentUser(Authentication authentication, Principal principal) {
         var userAuth = SecurityContextHolder.getContext().getAuthentication();
-        return (UserEntity) userAuth.getPrincipal();
+        return userAuth.getPrincipal();
     }
 
 }

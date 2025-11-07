@@ -1,4 +1,4 @@
-package pl.training.security;
+package pl.training.security.jwt;
 
 import java.util.Set;
 

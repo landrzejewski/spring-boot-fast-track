@@ -1,4 +1,4 @@
-package pl.training.security;
+package pl.training.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class JwtService {
