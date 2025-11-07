@@ -30,13 +30,11 @@ public class SecurityConfiguration {
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
                 .authorizeHttpRequests(config -> config
-                                .requestMatchers("/login.html").permitAll()
                                 .requestMatchers(GET, "/actuator").permitAll()
                                 .anyRequest().hasRole("ADMIN") //.authenticated()
-                        // .anyRequest().access(new TimeBasedAuthorizationManager())
+                                // .anyRequest().access(new TimeBasedAuthorizationManager())
                 )
                 .build();
-
     }
 
 }
