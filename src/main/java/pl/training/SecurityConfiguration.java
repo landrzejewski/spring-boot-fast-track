@@ -1,6 +1,7 @@
 package pl.training;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import pl.training.security.apikey.ApiKeyAuthenticationFilter;
+import pl.training.security.apikey.ApiKeyAuthenticationProvider;
 import pl.training.security.jwt.JwtAuthenticationFilter;
 import pl.training.security.jwt.JwtAuthenticationProvider;
 import pl.training.security.jwt.JwtPrincipal;
@@ -97,9 +100,11 @@ public class SecurityConfiguration implements ApplicationRunner {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   ApiKeyAuthenticationFilter apiKeyAuthenticationFilter) throws Exception {
         return http
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(apiKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
                 .httpBasic(withDefaults())
@@ -160,6 +165,11 @@ public class SecurityConfiguration implements ApplicationRunner {
     @Bean
     public JwtAuthenticationProvider jwtAuthenticationProvider(JwtService jwtService) {
         return new JwtAuthenticationProvider(jwtService);
+    }
+
+    @Bean
+    public ApiKeyAuthenticationProvider apiKeyAuthentication(@Value("${api.keys}") Set<String> apiKeys) {
+        return new ApiKeyAuthenticationProvider(apiKeys);
     }
 
 }

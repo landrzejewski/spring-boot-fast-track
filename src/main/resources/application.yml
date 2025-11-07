@@ -21,3 +21,5 @@ spring:
 card-number-length: 16
 jwt:
   secret: secretsecret
+api:
+  keys: 12345,67890

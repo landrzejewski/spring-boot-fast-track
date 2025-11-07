@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
@@ -18,7 +18,7 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     }
 
     @Autowired
-    public void configure(AuthenticationManagerBuilder builder, List<AuthenticationProvider> providers) {
+    public void configure(AuthenticationManagerBuilder builder, Set<AuthenticationProvider> providers) {
         providers.forEach(builder::authenticationProvider);
     }
 
