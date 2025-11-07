@@ -1,7 +1,11 @@
 package pl.training.payments.adapters.rest;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +26,10 @@ public class AddCardRestController {
         this.addCardUseCase = addCardUseCase;
     }
 
+    // @Secured("ROLE_MANAGER")
+    // @RolesAllowed("MANAGER")
+    // @PreAuthorize("!#addCardRequest.currencyCode().equals('EUR')")
+    // @PostAuthorize("returnObject.statusCodeValue == 201")
     @PostMapping("api/cards")
     ResponseEntity<AddCardResponse> addCard(@Validated @RequestBody final AddCardRequest addCardRequest) {
         var card = addCardUseCase.handle(addCardRequest.currency());

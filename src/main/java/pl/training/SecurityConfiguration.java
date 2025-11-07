@@ -2,23 +2,18 @@ package pl.training;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authorization.AuthorizationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import pl.training.security.TimeBasedAuthorizationManager;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -50,6 +45,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
     AuthorizationManager authorizationManager; // Interfejs/kontrakt dla procesu autoryzacji
         AuthoritiesAuthorizationManager authoritiesAuthorizationManager; // Jedna z implementacji AuthorizationManager (role)*/
 
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true/*, proxyTargetClass = true*/)
 @Configuration
 public class SecurityConfiguration {
 
@@ -58,13 +54,13 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    public UserDetails user() {
+    /*public UserDetails user() {
         return User.withUsername("jan")
                 .password(passwordEncoder().encode("123"))
                 .roles("ADMIN")
                 //.authorities("read", "write")
                 .build();
-    }
+    }*/
 
     /*@Bean
     public UserDetailsService userDetailsService() {
@@ -76,14 +72,14 @@ public class SecurityConfiguration {
         };
     }*/
 
-    @Bean
+   /* @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         return new InMemoryUserDetailsManager(user());
-        /*var manager = new JdbcUserDetailsManager(dataSource);
+        *//*var manager = new JdbcUserDetailsManager(dataSource);
         // manager.setUsersByUsernameQuery("select username, password, enabled from users where username = ?");
         // manager.setAuthoritiesByUsernameQuery("select username, authority from authorities where username = ?");
-        return manager;*/
-    }
+        return manager;*//*
+    }*/
 
     @Bean
     public CorsConfiguration corsConfiguration() {
@@ -101,13 +97,41 @@ public class SecurityConfiguration {
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
                 .httpBasic(withDefaults())
-                .formLogin(withDefaults())
+                // .formLogin(withDefaults())
+                .formLogin(config -> config
+                                .loginPage("/login.html")
+                                .defaultSuccessUrl("/")
+                        //.usernameParameter("username")
+                        //.passwordParameter("password")
+                        /*.successHandler(new AuthenticationSuccessHandler() {
+                            @Override
+                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+                            }
+                        })*/
+                        /*.failureHandler((request, response, exception) -> {
+
+                        })*/
+                )
                 .authorizeHttpRequests(config -> config
+                        .requestMatchers("/login.html").permitAll()
                         .requestMatchers(GET, "/actuator").permitAll()
-                        .anyRequest().hasRole("ADMIN")//.authenticated()
+                        .anyRequest().hasRole("ADMIN") //.authenticated()
+                        // .anyRequest().access(new TimeBasedAuthorizationManager())
+                )
+                .logout(config -> config
+                        .logoutRequestMatcher(requestMatcherBuilder().matcher("/logout.html"))
+                        .logoutSuccessUrl("/login.html")
+                        .invalidateHttpSession(true)
                 )
                 .build();
 
     }
+
+    @Bean
+    PathPatternRequestMatcher.Builder requestMatcherBuilder() {
+        return PathPatternRequestMatcher.withDefaults();
+    }
+
 
 }

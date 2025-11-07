@@ -46,3 +46,9 @@ GET http://localhost:8080/api/cards/{{number}}
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic amFuOjEyMw==
+
+###
+GET http://localhost:8080/api/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuOjEyMw==
