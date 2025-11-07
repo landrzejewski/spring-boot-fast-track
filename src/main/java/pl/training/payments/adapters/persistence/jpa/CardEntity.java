@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity(name = "Card")
 @Table(indexes = @Index(name = "card_number", columnList = "number"))
-class CardEntity {
+public class CardEntity {
 
     @Id
     private String id;
