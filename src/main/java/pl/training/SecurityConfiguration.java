@@ -1,5 +1,8 @@
 package pl.training;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,10 +16,13 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import pl.training.security.JwtPrincipal;
+import pl.training.security.JwtService;
 import pl.training.security.TimeBasedAuthorizationManager;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -47,7 +53,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true/*, proxyTargetClass = true*/)
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfiguration implements ApplicationRunner {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -133,5 +139,15 @@ public class SecurityConfiguration {
         return PathPatternRequestMatcher.withDefaults();
     }
 
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        var jwtPrincipal = new JwtPrincipal("jan", Set.of("ROLE_ADMIN"));
+        var token = jwtService.createToken(jwtPrincipal);
+        System.out.println("Token: " + token);
+    }
 
 }
