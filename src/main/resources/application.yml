@@ -1,16 +1,45 @@
+# Główny plik konfiguracyjny Spring Boot
+# Spring automatycznie ładuje application.yml podczas startu
+# Hierarchia ładowania: application.yml -> application-{profile}.yml -> env vars -> command line
+
 spring:
+  # Konfiguracja JPA/Hibernate - ORM dla baz relacyjnych
   jpa:
-#    generate-ddl: true
+    # generate-ddl: true # Automatyczne generowanie schematu (alternatywa dla Hibernate ddl-auto)
     hibernate:
+      # ddl-auto - strategia zarządzania schematem bazy danych:
+      # - create-drop: tworzy tabele przy starcie, usuwa przy zamknięciu (dev/test)
+      # - create: tylko tworzy tabele, nie usuwa
+      # - update: aktualizuje schemat bez utraty danych
+      # - validate: tylko waliduje schemat
+      # - none: wyłącza zarządzanie schematem (produkcja)
       ddl-auto: create-drop
+    # open-in-view: false wyłącza Open Session in View
+    # - Zapobiega lazy loading w warstwie widoku
+    # - Wymusza jawne ładowanie relacji w serwisach
+    # - Lepsza wydajność i przewidywalność
     open-in-view: false
+  
+  # Konfiguracja źródła danych (DataSource)
   datasource:
+    # URL połączenia JDBC - protokół:typ_bazy://host:port/nazwa_bazy
     url: jdbc:postgresql://localhost:5432/payments
     username: admin
     password: admin
+    # Jawne wskazanie klasy sterownika (opcjonalne - Spring wykrywa z URL)
     driver-class-name: org.postgresql.Driver
+    # HikariCP - domyślna pula połączeń w Spring Boot 2+
     hikari:
+      # Maksymalna liczba połączeń w puli
+      # Dobierz na podstawie: liczba_wątków_aplikacji + liczba_jobów_w_tle
       maximum-pool-size: 6
+      # Inne przydatne opcje:
+      # minimum-idle: 2
+      # connection-timeout: 30000
+      # idle-timeout: 600000
+      # max-lifetime: 1800000
+  
+  # Spring Data MongoDB - konfiguracja NoSQL
   data:
     mongodb:
       username: admin
@@ -18,7 +47,21 @@ spring:
       database: payments
       host: localhost
       port: 27017
+      # Baza dla autentykacji (często 'admin')
       authentication-database: admin
+      # Alternatywnie można użyć URI:
+      # uri: mongodb://admin:admin@localhost:27017/payments?authSource=admin
+  
+  # Konfiguracja i18n (internacjonalizacja)
   messages:
+    # Bazowa nazwa plików z komunikatami
+    # Spring szuka: exceptions.properties, exceptions_pl.properties, etc.
     basename: exceptions
+    # Inne opcje:
+    # encoding: UTF-8
+    # cache-duration: 3600
+    # fallback-to-system-locale: false
+
+# Własna właściwość aplikacji używana przez @Value
+# Dostępna jako ${card-number-length} w kodzie
 card-number-length: 16

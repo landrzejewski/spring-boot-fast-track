@@ -1,10 +1,42 @@
+# Konfiguracja profilu deweloperskiego Spring Boot
+# Aktywacja: spring.profiles.active=dev
+# Ten plik nadpisuje wartości z application.yml dla profilu "dev"
+
 spring:
+  # Konfiguracja źródła danych dla środowiska deweloperskiego
   datasource:
+    # Zakomentowana opcja - baza H2 w pamięci (in-memory):
+    # - Dane znikają po restarcie aplikacji
+    # - Idealna do testów jednostkowych
+    # - Brak persystencji między uruchomieniami
     # url: jdbc:h2:mem:payments
+    
+    # Aktualna konfiguracja - baza H2 w pliku:
+    # jdbc:h2:file: - protokół dla bazy plikowej H2
+    # ./data/payments - ścieżka względna do pliku bazy (tworzy data/payments.mv.db)
+    # DB_CLOSE_ON_EXIT=FALSE - nie zamykaj bazy przy wyłączeniu JVM
+    #   - Umożliwia podgląd danych gdy aplikacja nie działa
+    #   - Przydatne podczas debugowania
     url: jdbc:h2:file:./data/payments;DB_CLOSE_ON_EXIT=FALSE
+    
+    # Sterownik H2 - Spring może go wykryć z URL, ale jawne określenie jest bezpieczniejsze
     driver-class-name: org.h2.Driver
+  
+  # Konfiguracja konsoli H2 - graficzny interfejs do bazy danych
   h2:
     console:
+      # Włącza konsolę webową H2
+      # UWAGA: Wyłącz w produkcji! Potencjalne zagrożenie bezpieczeństwa
       enabled: true
+      
+      # Ścieżka do konsoli: http://localhost:8080/h2
+      # Domyślnie byłoby /h2-console
       path: /h2
+      
+      # Inne opcje (nieużywane):
+      # settings.web-allow-others: true - dostęp z innych hostów
+      # settings.trace: false - wyłącz logowanie SQL
+
+# Nadpisanie długości numeru karty dla profilu dev
+# W application.yml jest 16, tutaj 18 dla testowania
 card-number-length: 18
