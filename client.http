@@ -19,7 +19,7 @@ Authorization: Basic amFuOjEyMw==
 
 {
   "type": "IN",
-  "amount": 20000,
+  "amount": 100,
   "currencyCode": "PLN"
 }
 

@@ -2,9 +2,12 @@ package pl.training;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,8 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.sql.DataSource;
+import java.util.List;
+
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 
 /*AuthenticationManager authenticationManager; // Interfejs/kontrakt dla procesu uwierzytelnienia użytkownika
@@ -53,13 +62,13 @@ public class SecurityConfiguration {
         return User.withUsername("jan")
                 .password(passwordEncoder().encode("123"))
                 .roles("ADMIN")
-                .authorities("read", "write")
+                //.authorities("read", "write")
                 .build();
     }
 
     /*@Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
+        return username ->
             if (!username.equals("jan")) {
                 throw new UsernameNotFoundException("User not found");
             }
@@ -69,11 +78,36 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        // return new InMemoryUserDetailsManager(user());
-        var manager = new JdbcUserDetailsManager(dataSource);
+        return new InMemoryUserDetailsManager(user());
+        /*var manager = new JdbcUserDetailsManager(dataSource);
         // manager.setUsersByUsernameQuery("select username, password, enabled from users where username = ?");
         // manager.setAuthoritiesByUsernameQuery("select username, authority from authorities where username = ?");
-        return manager;
+        return manager;*/
+    }
+
+    @Bean
+    public CorsConfiguration corsConfiguration() {
+        var corsConfig = new CorsConfiguration();
+        corsConfig.setAllowedOrigins(List.of("https://training.pl"));
+        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        corsConfig.setAllowedHeaders(List.of("*"));
+        corsConfig.setAllowCredentials(true);
+        return corsConfig;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(config -> config.ignoringRequestMatchers("/api/**"))
+                .cors(config -> config.configurationSource(request -> corsConfiguration()))
+                .httpBasic(withDefaults())
+                .formLogin(withDefaults())
+                .authorizeHttpRequests(config -> config
+                        .requestMatchers(GET, "/actuator").permitAll()
+                        .anyRequest().hasRole("ADMIN")//.authenticated()
+                )
+                .build();
+
     }
 
 }
