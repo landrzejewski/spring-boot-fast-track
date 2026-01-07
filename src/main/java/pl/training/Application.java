@@ -5,12 +5,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pl.training.common.PageSpec;
-import pl.training.payments.application.*;
+import pl.training.payments.application.AddCardUseCase;
+import pl.training.payments.application.AddTransactionUseCase;
+import pl.training.payments.application.GetCardUseCase;
+import pl.training.payments.application.GetCardsUseCase;
 import pl.training.payments.domain.Money;
 
 import java.util.Currency;
-import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import static pl.training.payments.domain.TransactionType.INFLOW;
