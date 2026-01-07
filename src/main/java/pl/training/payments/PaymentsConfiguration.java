@@ -16,7 +16,7 @@ public class PaymentsConfiguration {
 
     // @Scope("prototype")
     @Bean(name = {"getAddCardUseCase", "getAddCard"}, initMethod = "init", destroyMethod = "destroy")
-    public AddCardUseCase getAddCardUseCase(/*@Qualifier("randomCardNumberGenerator")*/ CardNumberGenerator cardNumberGenerator, DateTimeProvider dateTimeProvider, CardRepository cardRepository) {
+    public AddCardUseCase addCardUseCase(/*@Qualifier("randomCardNumberGenerator")*/ CardNumberGenerator cardNumberGenerator, DateTimeProvider dateTimeProvider, CardRepository cardRepository) {
         // var addCardUseCase = new AddCardUseCase(randomCardNumberGenerator(16), dateTimeProvider);
         var addCardUseCase = new AddCardUseCase(cardNumberGenerator, dateTimeProvider);
         addCardUseCase.setCardRepository(cardRepository);
@@ -24,17 +24,17 @@ public class PaymentsConfiguration {
     }
 
     @Bean
-    public AddTransactionUseCase  getAddTransactionUseCase(DateTimeProvider timeProvider, TransactionEventPublisher transactionEventPublisher, CardRepository cardRepository) {
+    public AddTransactionUseCase  addTransactionUseCase(DateTimeProvider timeProvider, TransactionEventPublisher transactionEventPublisher, CardRepository cardRepository) {
         return new AddTransactionUseCase(timeProvider, transactionEventPublisher, cardRepository);
     }
 
     @Bean
-    public GetCardsUseCase  getGetCardsUseCase(CardRepository cardRepository) {
+    public GetCardsUseCase getCardsUseCase(CardRepository cardRepository) {
         return new GetCardsUseCase(cardRepository);
     }
 
     @Bean
-    public GetCardUseCase getGetCardUseCase(CardRepository cardRepository) {
+    public GetCardUseCase getCardUseCase(CardRepository cardRepository) {
         return new GetCardUseCase(cardRepository);
     }
 
