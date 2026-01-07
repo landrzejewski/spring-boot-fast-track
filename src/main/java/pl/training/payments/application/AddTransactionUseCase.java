@@ -1,5 +1,6 @@
 package pl.training.payments.application;
 
+import pl.training.common.aop.Loggable;
 import pl.training.payments.domain.*;
 
 import java.util.function.Consumer;
@@ -18,6 +19,7 @@ public class AddTransactionUseCase {
         this.cardRepository = cardRepository;
     }
 
+    @Loggable
     public TransactionId handle(final CardNumber cardNumber, final Money value, final TransactionType transactionType) {
         var card = findCard(cardNumber);
         var transaction = createTransaction(value, transactionType);

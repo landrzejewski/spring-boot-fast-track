@@ -4,6 +4,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import pl.training.payments.application.CardNotFoundException;
+import pl.training.payments.domain.CardNumber;
+import pl.training.payments.domain.Money;
+import pl.training.payments.domain.TransactionType;
 
 import java.util.logging.Logger;
 
@@ -13,21 +16,33 @@ public final class AddTransactionLoggingAspect {
 
     private static final Logger LOGGER = Logger.getLogger(AddTransactionLoggingAspect.class.getName());
 
-    @Before("bean(addTransactionUseCase)")
-    public void beforeAddTransaction() {
-        LOGGER.info("----------------------------- Transaction start -----------------------------");
+    // @Pointcut("execution(* pl.training.payments.app*.*TransactionUseCase.han*(..))")
+    // @Pointcut("execution(pl.training.payments.domain.TransactionId pl.training.payments.application.AddTransactionUseCase.handle(pl.training.payments.domain.CardNumber, pl.training.payments.domain.Money, pl.training.payments.domain.TransactionType))")
+    @Pointcut("@annotation(pl.training.common.aop.Loggable)")
+    // @Pointcut("bean(addTransactionUseCase)")
+    void process() {
     }
 
-    @AfterReturning("bean(addTransactionUseCase)")
-    public void onAddTransactionSuccess() {
-        LOGGER.info("Transaction on card %s successfully completed".formatted(""));
+    @Before(value = "process() && args(cardNumber,money,type)", argNames = "joinPoint,money,cardNumber,type")
+    public void beforeAddTransaction(JoinPoint joinPoint, Money money, CardNumber cardNumber, TransactionType type) {
+        LOGGER.info("----------------------------- Transaction start -----------------------------");
+        LOGGER.info("cardNumber: " + cardNumber);
+        LOGGER.info("amount: " + money);
+        LOGGER.info("type: " + type);
     }
-    @AfterThrowing(value = "bean(addTransactionUseCase)", throwing = "cardNotFoundException")
+
+    @AfterReturning("process()")
+    public void onAddTransactionSuccess(JoinPoint joinPoint) {
+        var cardNumber = (CardNumber) joinPoint.getArgs()[0];
+        LOGGER.info("Transaction on card %s successfully completed".formatted(cardNumber.value()));
+    }
+
+    @AfterThrowing(value = "process()", throwing = "cardNotFoundException")
     public void onAddTransactionFailure(CardNotFoundException cardNotFoundException) {
         LOGGER.info("Transaction failed: %s".formatted(cardNotFoundException.getClass().getSimpleName()));
     }
 
-    @After("bean(addTransactionUseCase)")
+    @After("process()")
     public void afterAddTransaction() {
         LOGGER.info("------------------------------ Transaction end ------------------------------\n");
     }
