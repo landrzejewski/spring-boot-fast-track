@@ -2,6 +2,7 @@ package pl.training.payments.adapters;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import pl.training.payments.application.CardNotFoundException;
 import pl.training.payments.domain.CardNumber;
@@ -10,6 +11,7 @@ import pl.training.payments.domain.TransactionType;
 
 import java.util.logging.Logger;
 
+@Order(1)
 @Aspect
 @Component
 public final class AddTransactionLoggingAspect {
