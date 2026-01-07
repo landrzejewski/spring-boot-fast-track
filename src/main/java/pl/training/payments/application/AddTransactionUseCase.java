@@ -24,6 +24,11 @@ public class AddTransactionUseCase {
     }
 
     @Retry
+    public void test() {
+
+    }
+
+    @Retry
     @Timer(unitType = NS)
     @Loggable
     public TransactionId handle(final CardNumber cardNumber, final Money value, final TransactionType transactionType) {
@@ -31,8 +36,7 @@ public class AddTransactionUseCase {
         var transaction = createTransaction(value, transactionType);
         var cardEventListener = createCardEventListener();
         addTransactionToCard(card, transaction, cardEventListener);
-        // return transaction.id();
-        throw new RuntimeException();
+        return transaction.id();
     }
 
     private Card findCard(final CardNumber cardNumber) {
