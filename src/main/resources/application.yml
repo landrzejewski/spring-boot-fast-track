@@ -1,6 +1,8 @@
 spring:
   application:
     name: cards
+#  profiles:
+#    active: dev
 logging:
   level:
     org.springframework: info

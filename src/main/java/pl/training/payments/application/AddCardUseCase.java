@@ -1,18 +1,11 @@
 package pl.training.payments.application;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import pl.training.common.component.Generator;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 
 import java.time.LocalDate;
 import java.util.Currency;
 
-@Service
 public class AddCardUseCase {
 
     private static final int EXPIRATION_TIME_IN_YEARS = 1;
@@ -21,27 +14,19 @@ public class AddCardUseCase {
     private final DateTimeProvider dateTimeProvider;
     private CardRepository cardRepository;
 
-    public AddCardUseCase(
-            // @Qualifier("random") CardNumberGenerator cardNumberGenerator,
-            // @Generator("random") CardNumberGenerator cardNumberGenerator,
-            // CardNumberGenerator random,
-            final CardNumberGenerator cardNumberGenerator,
-            final DateTimeProvider dateTimeProvider) {
+    public AddCardUseCase(final CardNumberGenerator cardNumberGenerator, final DateTimeProvider dateTimeProvider) {
         this.cardNumberGenerator = cardNumberGenerator;
         this.dateTimeProvider = dateTimeProvider;
     }
 
-    @Autowired
     public void setCardRepository(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
-    @PostConstruct
     public void init() {
         System.out.println("Initializing AddCardUseCase");
     }
 
-    @PreDestroy
     public void destroy() {
         System.out.println("Destroying AddCardUseCase");
     }

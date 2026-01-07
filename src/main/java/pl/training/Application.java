@@ -26,20 +26,13 @@ public class Application implements ApplicationRunner {
     private final AddTransactionUseCase addTransactionUseCase;
     private final GetCardsUseCase getCardsUseCase;
     private final GetCardUseCase getCardUseCase;
-    private final List<CardNumberGenerator> cardNumberGenerators;
-    private final Map<String, CardNumberGenerator> cardNumberGeneratorMap;
 
     public Application(AddCardUseCase addCardUseCase, AddTransactionUseCase addTransactionUseCase, GetCardsUseCase getCardsUseCase,
-                       GetCardUseCase getCardUseCase, List<CardNumberGenerator> cardNumberGenerators,
-                       Map<String, CardNumberGenerator> cardNumberGeneratorMap, DateTimeProvider dt1, DateTimeProvider dt2) {
-
-        System.out.println(dt1);
+                       GetCardUseCase getCardUseCase) {
         this.addCardUseCase = addCardUseCase;
         this.addTransactionUseCase = addTransactionUseCase;
         this.getCardsUseCase = getCardsUseCase;
         this.getCardUseCase = getCardUseCase;
-        this.cardNumberGenerators = cardNumberGenerators;
-        this.cardNumberGeneratorMap = cardNumberGeneratorMap;
     }
 
     static void main(String[] args) {

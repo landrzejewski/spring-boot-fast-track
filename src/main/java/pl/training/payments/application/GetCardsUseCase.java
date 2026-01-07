@@ -1,11 +1,9 @@
 package pl.training.payments.application;
 
-import org.springframework.stereotype.Service;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
 import pl.training.payments.domain.Card;
 
-@Service
 public class GetCardsUseCase {
 
     private final CardRepository cardRepository;
