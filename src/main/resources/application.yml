@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: cards
+logging:
+  level:
+    org.springframework: info
+card-number-length: 16
