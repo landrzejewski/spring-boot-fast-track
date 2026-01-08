@@ -10,6 +10,7 @@ import pl.training.payments.domain.CardNumber;
 
 import java.util.Optional;
 
+@Primary
 @Repository
 public class MongoCardRepositoryAdapter implements CardRepository {
 
