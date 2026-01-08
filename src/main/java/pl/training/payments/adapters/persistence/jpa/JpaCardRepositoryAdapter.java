@@ -15,25 +15,32 @@ import java.util.Optional;
 public class JpaCardRepositoryAdapter implements CardRepository {
 
     private final JpaCardRepository repository;
+    private final JpaCardRepositoryMapper mapper;
 
-    public JpaCardRepositoryAdapter(JpaCardRepository repository) {
+    public JpaCardRepositoryAdapter(JpaCardRepository repository, JpaCardRepositoryMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     @Override
     public Card save(Card card) {
-
-        return null;
+        var cardEntity = mapper.toEntity(card);
+        var savedCardEntity = repository.save(cardEntity);
+        return mapper.toDomain(savedCardEntity);
     }
 
     @Override
     public ResultPage<Card> findAll(PageSpec pageSpec) {
-        return null;
+        var pageRequest = mapper.toEntity(pageSpec);
+        var cardEntityPage = repository.findAll(pageRequest);
+        return mapper.toDomain(cardEntityPage);
     }
 
     @Override
     public Optional<Card> findByNumber(CardNumber cardNumber) {
-        return Optional.empty();
+        var number = mapper.toEntity(cardNumber);
+        return repository.findById(number)
+                .map(mapper::toDomain);
     }
 
 }
