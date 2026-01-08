@@ -1,6 +1,5 @@
 package pl.training.payments.adapters.persistence.mongo;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
@@ -10,7 +9,6 @@ import pl.training.payments.domain.CardNumber;
 
 import java.util.Optional;
 
-@Primary
 @Repository
 public class MongoCardRepositoryAdapter implements CardRepository {
 

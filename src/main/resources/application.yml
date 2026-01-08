@@ -1,11 +1,11 @@
 spring:
   application:
     name: cards
-  jpa:
-    generate-ddl: true
 #  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
+#    generate-ddl: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
   datasource:
     url: jdbc:postgresql://localhost:5432/payments
     username: admin

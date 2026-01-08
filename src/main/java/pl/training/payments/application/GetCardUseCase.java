@@ -1,11 +1,11 @@
 package pl.training.payments.application;
 
-import org.springframework.transaction.annotation.Transactional;
+import pl.training.common.aop.Atomic;
 import pl.training.common.aop.MinLength;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardNumber;
 
-@Transactional
+@Atomic
 public class GetCardUseCase {
 
     private final CardRepository cardRepository;
