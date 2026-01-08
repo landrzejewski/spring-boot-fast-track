@@ -39,7 +39,7 @@ public class JpaCardRepositoryAdapter implements CardRepository {
     @Override
     public Optional<Card> findByNumber(CardNumber cardNumber) {
         var number = mapper.toEntity(cardNumber);
-        return repository.findById(number)
+        return repository.findByNumber(number)
                 .map(mapper::toDomain);
     }
 

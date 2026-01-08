@@ -1,14 +1,11 @@
 package pl.training.payments.application;
 
 import org.springframework.transaction.annotation.Transactional;
-import pl.training.common.aop.Atomic;
-import pl.training.common.aop.cache.Cacheable;
 import pl.training.common.aop.MinLength;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardNumber;
 
-// @Transactional
-@Atomic
+@Transactional
 public class GetCardUseCase {
 
     private final CardRepository cardRepository;
@@ -17,7 +14,6 @@ public class GetCardUseCase {
         this.cardRepository = cardRepository;
     }
 
-    @Cacheable(value ="cards", size = 10)
     public Card handle(final CardNumber cardNumber) {
         return cardRepository.findByNumber(cardNumber)
                 .orElseThrow(CardNotFoundException::new);
