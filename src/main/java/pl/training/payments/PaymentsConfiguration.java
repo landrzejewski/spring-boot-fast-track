@@ -15,7 +15,7 @@ import pl.training.payments.application.*;
 public class PaymentsConfiguration {
 
     // @Scope("prototype")
-    @Bean(name = {"getAddCardUseCase", "getAddCard"}, initMethod = "init", destroyMethod = "destroy")
+    @Bean(name = {"addCardUseCase", "addCard"}, initMethod = "init", destroyMethod = "destroy")
     public AddCardUseCase addCardUseCase(/*@Qualifier("randomCardNumberGenerator")*/ CardNumberGenerator cardNumberGenerator, DateTimeProvider dateTimeProvider, CardRepository cardRepository) {
         // var addCardUseCase = new AddCardUseCase(randomCardNumberGenerator(16), dateTimeProvider);
         var addCardUseCase = new AddCardUseCase(cardNumberGenerator, dateTimeProvider);
