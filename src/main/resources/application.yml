@@ -1,8 +1,18 @@
 spring:
   application:
     name: cards
-#  profiles:
-#    active: dev
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payments
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 6
+#  jpa:
+#    generate-ddl: true
 logging:
   level:
     org.springframework: info
