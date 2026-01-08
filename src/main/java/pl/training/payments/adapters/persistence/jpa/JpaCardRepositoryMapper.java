@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-record JpaCardRepositoryMapper(TransactionJsonMapper jsonMapper) {
+public record JpaCardRepositoryMapper(TransactionJsonMapper jsonMapper) {
 
     private final static TypeReference<List<Transaction>> TRANSACTION_LIST_TYPE = new TypeReference<>() {
     };
 
-    CardEntity toEntity(final Card card) {
+    public CardEntity toEntity(final Card card) {
         var cardEntity = new CardEntity();
         cardEntity.setId(toEntity(card.getId()));
         cardEntity.setNumber(toEntity(card.getNumber()));
@@ -40,15 +40,15 @@ record JpaCardRepositoryMapper(TransactionJsonMapper jsonMapper) {
         return currency.getCurrencyCode();
     }
 
-    String toEntity(final CardNumber cardNumber) {
+    public String toEntity(final CardNumber cardNumber) {
         return cardNumber.value();
     }
 
-    PageRequest toEntity(final PageSpec pageSpec) {
+    public PageRequest toEntity(final PageSpec pageSpec) {
         return PageRequest.of(pageSpec.index(), pageSpec.size());
     }
 
-    Card toDomain(final CardEntity cardEntity) {
+    public Card toDomain(final CardEntity cardEntity) {
         var cardId = toDomain(cardEntity.getId());
         var cardNumber = new CardNumber(cardEntity.getNumber());
         var currency = Currency.getInstance(cardEntity.getCurrencyCode());
@@ -65,7 +65,7 @@ record JpaCardRepositoryMapper(TransactionJsonMapper jsonMapper) {
         return new CardId(UUID.fromString(id));
     }
 
-    ResultPage<Card> toDomain(final Page<CardEntity> page) {
+    public ResultPage<Card> toDomain(final Page<CardEntity> page) {
         return new ResultPage<>(
                 page.stream().map(this::toDomain).toList(),
                 new PageSpec(page.getNumber(), page.getSize()),
