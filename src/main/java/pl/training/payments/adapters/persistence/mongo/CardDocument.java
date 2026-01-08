@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Document(collection = "Card")
-public final class CardDocument {
+public class CardDocument {
 
     @Id
     private String id;

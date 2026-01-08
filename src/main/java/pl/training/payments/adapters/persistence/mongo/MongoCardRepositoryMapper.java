@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
 import pl.training.payments.adapters.persistence.TransactionJsonMapper;
+import pl.training.payments.adapters.persistence.jpa.CardEntity;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 import pl.training.payments.domain.CardNumber;
