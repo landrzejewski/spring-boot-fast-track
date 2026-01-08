@@ -21,6 +21,8 @@ spring:
     authentication-database: admin
     # host: localhost
     # port: 27017
+  messages:
+    basename: exceptions
 logging:
   level:
     org.springframework: info
