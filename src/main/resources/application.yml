@@ -13,6 +13,13 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 6
+  mongodb:
+    username: admin
+    password: admin
+    database: payments
+    authentication-database: admin
+    # host: localhost
+    # port: 27017
 logging:
   level:
     org.springframework: info
