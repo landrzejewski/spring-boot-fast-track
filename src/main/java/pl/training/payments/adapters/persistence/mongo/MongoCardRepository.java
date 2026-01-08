@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MongoCardRepository extends MongoRepository<CardDocument, String> {
 
-    // @Query("")
+    // @Query("{ 'number' : ?0 }")
     Optional<CardDocument> findByNumber(String number);
 
 }
