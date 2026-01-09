@@ -1,6 +1,7 @@
 POST http://localhost:8080/api/cards
 Accept: application/json
 Content-Type: application/json
+Authorization: Basic amFuOjEyMw==
 
 {
   "currencyCode": "PLN"
@@ -36,8 +37,15 @@ Content-Type: application/json
 GET http://localhost:8080/api/cards?pageSize=3
 Accept: application/json
 Content-Type: application/json
+Authorization: Basic amFuOjEyMw==
 
 ###
 GET http://localhost:8080/api/cards/{{number}}
 Accept: application/json
 Content-Type: application/json
+
+###
+GET http://localhost:8080/api/users/me
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic amFuOjEyMw==

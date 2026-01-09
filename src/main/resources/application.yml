@@ -23,6 +23,11 @@ spring:
     # port: 27017
   messages:
     basename: exceptions
+#  security:
+#    user:
+#      name: admin
+#      password: admin
+#      roles: ADMIN
 logging:
   level:
     org.springframework: info
