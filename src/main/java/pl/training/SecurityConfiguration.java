@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
+import pl.training.security.DefaultAuthoritiesMapper;
 import pl.training.security.KeycloakAuthoritiesConverter;
 import pl.training.security.KeycloakAuthoritiesMapper;
 import pl.training.security.KeycloakLogoutHandler;
@@ -58,7 +59,7 @@ public class SecurityConfiguration {
 
     // Client scopes -> Client scope details (roles) -> Mapper details -> Add to userinfo on realm-roles (set enabled) (Keycloak Admin console)
     private void userInfoCustomizer(OAuth2LoginConfigurer<HttpSecurity>.UserInfoEndpointConfig userInfoEndpointConfig) {
-        userInfoEndpointConfig.userAuthoritiesMapper(new KeycloakAuthoritiesMapper());
+        userInfoEndpointConfig.userAuthoritiesMapper(new DefaultAuthoritiesMapper());
     }
 
     @Bean

@@ -31,6 +31,9 @@ spring:
 #------------------------------------------------------------
       client:
         registration:
+          github:
+            client-id: Ov23liR1a7hQXN59iCeF
+            client-secret: ce09178fb052dd5d9e10bcd49a2d78c9363601aa
           keycloak:
             client-id: training-client
             scope:
