@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=payments
 #    volumes:
-#      - ./data/postgres:/var/lib/postgresql/data
+#      - ./data/postgres:/var/lib/postgresql
   mongo:
     image: mongo:8
     ports:
@@ -19,3 +19,17 @@ services:
       - MONGO_INITDB_ROOT_DATABASE=payments
 #    volumes:
 #      - ./data/mongo:/data/mongo
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    command:
+      - start-dev
+    ports:
+      - "8100:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      DB_VENDOR: "POSTGRES"
+      DB_ADDR: "postgres"
+      DB_USER: "admin"
+      DB_PASSWORD: "admin"
+      DB_DATABASE: "payments"
