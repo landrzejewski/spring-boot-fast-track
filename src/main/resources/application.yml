@@ -32,3 +32,4 @@ logging:
   level:
     org.springframework: info
 card-number-length: 16
+secret: PeM7csCZ1546

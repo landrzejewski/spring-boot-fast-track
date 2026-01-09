@@ -1,28 +1,32 @@
 package pl.training;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.sql.DataSource;
+import pl.training.security.TimeBasedAuthorizationManager;
+import pl.training.security.jwt.JwtAuthenticationFilter;
+import pl.training.security.jwt.JwtAuthenticationProvider;
+import pl.training.security.jwt.JwtPrincipal;
+import pl.training.security.jwt.JwtService;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -49,8 +53,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
     AuthorizationManager authorizationManager; // Interfejs/kontrakt dla procesu autoryzacji
         AuthoritiesAuthorizationManager authoritiesAuthorizationManager; // Jedna z implementacji AuthorizationManager (role)*/
 
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true/*,  prePostEnabled = true*/)
+// @EnableWebSecurity(debug = true)
 @Configuration
-public class SecurityConfiguration implements WebMvcConfigurer {
+public class SecurityConfiguration implements WebMvcConfigurer, ApplicationRunner {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -96,8 +102,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   TimeBasedAuthorizationManager authorizationManager) throws Exception {
         return http
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
                 .httpBasic(withDefaults())
@@ -111,7 +120,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/login.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").authenticated()
-                        .anyRequest().hasRole("ADMIN")
+                        .anyRequest().access(authorizationManager)//.hasRole("ADMIN")
                 )
                 .logout(config -> config
                         .logoutRequestMatcher(requestMatcherBuilder().matcher("/logout.html"))
@@ -129,6 +138,30 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("login.html").setViewName("login-form");
+        registry.addViewController("index.html").setViewName("index");
+        registry.addViewController("/").setViewName("index");
+    }
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        var jwtPrincipal = new JwtPrincipal("jan", Set.of("ROLE_ADMIN"));
+        var token = jwtService.createToken(jwtPrincipal);
+        System.out.println("Token: " + token);
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        var daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public JwtAuthenticationProvider jwtAuthenticationProvider(JwtService jwtService) {
+        return new JwtAuthenticationProvider(jwtService);
     }
 
 }
