@@ -33,3 +33,4 @@ logging:
     org.springframework: info
 card-number-length: 16
 secret: PeM7csCZ1546
+api-keys: 00001,00002

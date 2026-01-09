@@ -1,6 +1,7 @@
 package pl.training;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.training.security.TimeBasedAuthorizationManager;
+import pl.training.security.apikey.ApiKeyAuthenticationFilter;
+import pl.training.security.apikey.ApiKeyAuthenticationProvider;
 import pl.training.security.jwt.JwtAuthenticationFilter;
 import pl.training.security.jwt.JwtAuthenticationProvider;
 import pl.training.security.jwt.JwtPrincipal;
@@ -104,9 +107,11 @@ public class SecurityConfiguration implements WebMvcConfigurer, ApplicationRunne
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    JwtAuthenticationFilter jwtAuthenticationFilter,
+                                                   ApiKeyAuthenticationFilter  apiKeyAuthenticationFilter,
                                                    TimeBasedAuthorizationManager authorizationManager) throws Exception {
         return http
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(apiKeyAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
                 .httpBasic(withDefaults())
@@ -162,6 +167,11 @@ public class SecurityConfiguration implements WebMvcConfigurer, ApplicationRunne
     @Bean
     public JwtAuthenticationProvider jwtAuthenticationProvider(JwtService jwtService) {
         return new JwtAuthenticationProvider(jwtService);
+    }
+
+    @Bean
+    public ApiKeyAuthenticationProvider apiKeyAuthentication(@Value("${api-keys}") Set<String> apiKeys) {
+        return new ApiKeyAuthenticationProvider(apiKeys);
     }
 
 }
