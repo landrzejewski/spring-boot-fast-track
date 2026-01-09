@@ -1,18 +1,16 @@
 package pl.training;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-
-import java.util.Set;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class ApplicationConfiguration {
+public class ApplicationConfiguration implements WebMvcConfigurer {
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder builder, Set<AuthenticationProvider> providers) {
-        providers.forEach(builder::authenticationProvider);
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("index.html").setViewName("index");
+        registry.addViewController("/").setViewName("index");
     }
 
 }
