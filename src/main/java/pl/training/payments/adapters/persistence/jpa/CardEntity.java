@@ -87,4 +87,15 @@ public class CardEntity {
         return Objects.hashCode(id);
     }
 
+    @Override
+    public String toString() {
+        return "CardEntity{" +
+                "id='" + id + '\'' +
+                ", number='" + number + '\'' +
+                ", expiration=" + expiration +
+                ", currencyCode='" + currencyCode + '\'' +
+                ", transactions='" + transactions +
+                '}';
+    }
+
 }

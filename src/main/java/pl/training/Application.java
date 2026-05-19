@@ -4,6 +4,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.annotation.Order;
 import pl.training.common.PageSpec;
 import pl.training.payments.application.AddCardUseCase;
 import pl.training.payments.application.AddTransactionUseCase;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import static pl.training.payments.domain.TransactionType.INFLOW;
 import static pl.training.payments.domain.TransactionType.PAYMENT;
 
+@Order(1)
 @SpringBootApplication
 public class Application implements ApplicationRunner {
 

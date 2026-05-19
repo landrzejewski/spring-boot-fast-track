@@ -3,6 +3,8 @@ package pl.training.payments.adapters.persistence.jpa;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +15,7 @@ import static pl.training.payments.adapters.persistence.jpa.SearchCriteria.Match
 
 @Transactional
 @Order(2)
-// @Component
+@Component
 public class JpaExamples implements ApplicationRunner {
 
     private final JpaCardRepository repository;
@@ -44,7 +46,7 @@ public class JpaExamples implements ApplicationRunner {
                 .forEach(System.out::println);*/
 
         var searchCriteria = Set.of(
-                new SearchCriteria("number", "40711", START_WITH),
+                // new SearchCriteria("number", "40711", START_WITH),
                 new SearchCriteria("currencyCode", "PLN", EQUAL)
         );
         repository.findAll(new CardSpecification(searchCriteria))
