@@ -3,10 +3,16 @@ package pl.training.payments.adapters.persistence.jpa;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
+@NamedQuery(name = CardEntity.BY_CARD_NUMBER, query = "select c from Card c where c.number = :cardNumber")
+@NamedEntityGraph(name = CardEntity.WITH_PROPERTIES, attributeNodes = @NamedAttributeNode("properties"))
 @Entity(name = "Card")
 public class CardEntity {
+
+    public static final String BY_CARD_NUMBER = "CardEntity.byCardNumber";
+    public static final String WITH_PROPERTIES = "CardEntity.withProperties";
 
     @Id
     private String id;
@@ -17,6 +23,9 @@ public class CardEntity {
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private String transactions;
+    @JoinColumn(name = "card_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CardPropertyEntity> properties;
 
     public String getId() {
         return id;
@@ -56,6 +65,14 @@ public class CardEntity {
 
     public void setTransactions(String transactions) {
         this.transactions = transactions;
+    }
+
+    public List<CardPropertyEntity> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<CardPropertyEntity> properties) {
+        this.properties = properties;
     }
 
     @Override

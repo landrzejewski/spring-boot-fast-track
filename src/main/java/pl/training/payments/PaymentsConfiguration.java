@@ -6,10 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import pl.training.payments.adapters.RandomCardNumberGenerator;
 import pl.training.payments.adapters.SequentialCardNumberGenerator;
 import pl.training.payments.application.*;
 
+@EnableJpaRepositories(repositoryImplementationPostfix = "Impl")
 // @Profile("dev")
 @Configuration
 public class PaymentsConfiguration {
