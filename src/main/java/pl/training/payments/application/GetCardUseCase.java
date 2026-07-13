@@ -1,5 +1,6 @@
 package pl.training.payments.application;
 
+import pl.training.common.aop.Cacheable;
 import pl.training.common.aop.MinLength;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardNumber;
@@ -12,6 +13,7 @@ public class GetCardUseCase {
         this.cardRepository = cardRepository;
     }
 
+    @Cacheable(value ="cards", size = 10)
     public Card handle(final CardNumber cardNumber) {
         return cardRepository.findByNumber(cardNumber)
                 .orElseThrow(CardNotFoundException::new);

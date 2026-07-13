@@ -54,6 +54,10 @@ public class Application implements ApplicationRunner {
         getCardUseCase.handle(cardNumber)
                 .getTransactions()
                 .forEach(t -> LOGGER.info(t.toString()));
+
+        getCardUseCase.handle(cardNumber)
+                .getTransactions()
+                .forEach(t -> LOGGER.info(t.toString()));
     }
 
 }
