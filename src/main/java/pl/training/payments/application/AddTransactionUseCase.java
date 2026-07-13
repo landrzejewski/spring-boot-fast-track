@@ -24,11 +24,6 @@ public class AddTransactionUseCase {
     }
 
     @Retry
-    public void test() {
-
-    }
-
-    @Retry
     @Timer(unitType = NS)
     @Loggable
     public TransactionId handle(final CardNumber cardNumber, final Money value, final TransactionType transactionType) {
