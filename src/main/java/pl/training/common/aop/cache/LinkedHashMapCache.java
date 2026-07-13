@@ -1,4 +1,4 @@
-package pl.training.common.aop;
+package pl.training.common.aop.cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

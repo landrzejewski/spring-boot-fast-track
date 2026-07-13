@@ -1,4 +1,4 @@
-package pl.training.common.aop;
+package pl.training.common.aop.cache;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

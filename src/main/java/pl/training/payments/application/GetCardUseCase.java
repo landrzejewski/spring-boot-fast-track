@@ -1,6 +1,6 @@
 package pl.training.payments.application;
 
-import pl.training.common.aop.Cacheable;
+import pl.training.common.aop.cache.Cacheable;
 import pl.training.common.aop.MinLength;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardNumber;
