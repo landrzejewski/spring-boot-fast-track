@@ -1,11 +1,16 @@
 package pl.training.payments.application;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import pl.training.common.aop.Atomic;
 import pl.training.payments.domain.Card;
 import pl.training.payments.domain.CardId;
 
 import java.time.LocalDate;
 import java.util.Currency;
 
+// @Transactional(isolation = Isolation.DEFAULT, rollbackFor = Exception.class, noRollbackFor = CardNotFoundException.class)
+@Atomic
 public class AddCardUseCase {
 
     private static final int EXPIRATION_TIME_IN_YEARS = 1;

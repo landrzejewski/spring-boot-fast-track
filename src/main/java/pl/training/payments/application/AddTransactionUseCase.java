@@ -1,5 +1,7 @@
 package pl.training.payments.application;
 
+import org.springframework.transaction.annotation.Transactional;
+import pl.training.common.aop.Atomic;
 import pl.training.common.aop.Loggable;
 import pl.training.common.aop.Retry;
 import pl.training.common.aop.Timer;
@@ -9,6 +11,8 @@ import java.util.function.Consumer;
 
 import static pl.training.common.aop.Timer.UnitType.NS;
 
+// @Transactional
+@Atomic
 public class AddTransactionUseCase {
 
     private final DateTimeProvider dateTimeProvider;

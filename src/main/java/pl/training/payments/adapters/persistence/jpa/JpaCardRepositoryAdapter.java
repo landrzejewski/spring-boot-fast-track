@@ -2,6 +2,8 @@ package pl.training.payments.adapters.persistence.jpa;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import pl.training.common.PageSpec;
 import pl.training.common.ResultPage;
 import pl.training.payments.application.CardRepository;
@@ -10,6 +12,8 @@ import pl.training.payments.domain.CardNumber;
 
 import java.util.Optional;
 
+@Transactional(propagation = Propagation.MANDATORY)
+@Primary
 @Component
 public class JpaCardRepositoryAdapter implements CardRepository {
 
