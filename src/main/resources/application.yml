@@ -12,6 +12,13 @@ spring:
     generate-ddl: true
 #    hibernate:
 #      ddl-auto: create-drop
+  mongodb:
+    username: admin
+    password: admin
+    database: payments
+    authentication-database: admin
+    # host: localhost
+    # port: 27017
 #  profiles:
 #    active: dev
 logging:

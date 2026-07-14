@@ -10,7 +10,6 @@ import pl.training.payments.domain.CardNumber;
 
 import java.util.Optional;
 
-@Primary
 @Component
 public class JpaCardRepositoryAdapter implements CardRepository {
 
