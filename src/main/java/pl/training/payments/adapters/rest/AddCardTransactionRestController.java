@@ -14,11 +14,11 @@ import static pl.training.payments.domain.TransactionType.INFLOW;
 import static pl.training.payments.domain.TransactionType.PAYMENT;
 
 @RestController
-public class AddCardTransactionRestController {
+final class AddCardTransactionRestController {
 
     private final AddTransactionUseCase addTransactionUseCase;
 
-    public AddCardTransactionRestController(AddTransactionUseCase addTransactionUseCase) {
+    AddCardTransactionRestController(AddTransactionUseCase addTransactionUseCase) {
         this.addTransactionUseCase = addTransactionUseCase;
     }
 

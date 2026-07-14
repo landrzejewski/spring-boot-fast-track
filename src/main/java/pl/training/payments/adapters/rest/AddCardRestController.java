@@ -12,11 +12,11 @@ import java.time.LocalDate;
 import java.util.Currency;
 
 @RestController
-public class AddCardRestController {
+final class AddCardRestController {
 
     private final AddCardUseCase addCardUseCase;
 
-    public AddCardRestController(AddCardUseCase addCardUseCase) {
+    AddCardRestController(AddCardUseCase addCardUseCase) {
         this.addCardUseCase = addCardUseCase;
     }
 
