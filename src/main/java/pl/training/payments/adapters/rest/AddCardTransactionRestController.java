@@ -1,11 +1,11 @@
 package pl.training.payments.adapters.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.training.common.web.ExceptionResponse;
 import pl.training.payments.application.AddTransactionUseCase;
+import pl.training.payments.application.CardNotFoundException;
 import pl.training.payments.domain.CardNumber;
 import pl.training.payments.domain.Money;
 import pl.training.payments.domain.TransactionType;
@@ -31,6 +31,12 @@ final class AddCardTransactionRestController {
         addTransactionUseCase.handle(cardNumber, value, transactionType);
         return ResponseEntity.noContent().build();
     }
+
+    /*@ExceptionHandler(CardNotFoundException.class)
+    ResponseEntity<ExceptionResponse> onCardNotFound(final CardNotFoundException cardNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ExceptionResponse("Card not found"));
+    }*/
 
 }
 

@@ -19,9 +19,17 @@ spring:
     authentication-database: admin
     # host: localhost
     # port: 27017
+  messages:
+    basename: exceptions
 #  profiles:
 #    active: dev
+
 logging:
   level:
     org.springframework: info
 card-number-length: 16
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
