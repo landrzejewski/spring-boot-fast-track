@@ -1,6 +1,9 @@
 package pl.training.payments.adapters.rest;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +24,7 @@ final class AddCardRestController {
     }
 
     @PostMapping("api/cards")
-    ResponseEntity<AddCardResponse> addCard(@RequestBody AddCardRequest addCardRequest) {
+    ResponseEntity<AddCardResponse> addCard(@Validated /*@Valid*/ @RequestBody AddCardRequest addCardRequest) {
         var card = addCardUseCase.handle(addCardRequest.currency());
         var cardNumber = card.getNumber().value();
         var locationUri = LocationUri.fromRequest(cardNumber);
@@ -31,7 +34,7 @@ final class AddCardRestController {
 
 }
 
-record AddCardRequest(String currencyCode) {
+record AddCardRequest(@Pattern(regexp = "[A-Z]{3}") String currencyCode) {
 
     Currency currency() {
         return Currency.getInstance(currencyCode);

@@ -1,8 +1,14 @@
 package pl.training.payments.adapters.rest;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.training.common.validation.Base;
+import pl.training.common.validation.Extended;
+import pl.training.common.validation.Range;
 import pl.training.common.web.ExceptionResponse;
 import pl.training.payments.application.AddTransactionUseCase;
 import pl.training.payments.application.CardNotFoundException;
@@ -24,7 +30,7 @@ final class AddCardTransactionRestController {
 
     @PostMapping("api/cards/{number:\\d{16,19}}/transactions")
     ResponseEntity<Void> addTransaction(@PathVariable final String number,
-                                        @RequestBody final AddCardTransactionRequest addCardTransactionRequest) {
+                                        @Validated(Extended.class) @RequestBody final AddCardTransactionRequest addCardTransactionRequest) {
         var cardNumber = new CardNumber(number);
         var value = addCardTransactionRequest.money();
         var transactionType = addCardTransactionRequest.transactionType();
@@ -40,9 +46,9 @@ final class AddCardTransactionRestController {
 
 }
 
-record AddCardTransactionRequest(Double amount,
-                                 String currencyCode,
-                                 String type) {
+record AddCardTransactionRequest(@Range(groups = Extended.class) Double amount,
+                                 @Pattern(regexp = "[A-Z]{3}", groups = {Base.class, Extended.class}) String currencyCode,
+                                 @NotNull(groups = Base.class) String type) {
 
     Money money() {
         return new Money(amount, currencyCode);
