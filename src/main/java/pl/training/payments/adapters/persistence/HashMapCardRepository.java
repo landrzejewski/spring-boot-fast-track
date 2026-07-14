@@ -1,4 +1,4 @@
-package pl.training.payments.adapters;
+package pl.training.payments.adapters.persistence;
 
 import org.springframework.stereotype.Repository;
 import pl.training.common.PageSpec;
