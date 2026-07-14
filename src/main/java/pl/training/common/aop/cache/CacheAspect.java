@@ -18,7 +18,7 @@ public class CacheAspect {
 
     private final Map<String, Cache<Object, Object>> caches = new ConcurrentHashMap<>();
     private Function<Integer, Cache<Object, Object>> cacheSupplier = LinkedHashMapCache::new;
-    private KeyGenerator keyGenerator = new SimpleKeyGenerator();
+    private KeyGenerator keyGenerator = new CacheKeyGenerator();
 
     @Around("@annotation(fromCache)")
     public Object read(ProceedingJoinPoint joinPoint, Cacheable fromCache) throws Throwable {

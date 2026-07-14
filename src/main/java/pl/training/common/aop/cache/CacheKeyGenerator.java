@@ -2,12 +2,12 @@ package pl.training.common.aop.cache;
 
 import org.aspectj.lang.Signature;
 
-public final class SimpleKeyGenerator implements KeyGenerator {
+public final class CacheKeyGenerator implements KeyGenerator {
 
     @Override
     public Object generate(Signature signature, Object[] args) {
         if (args.length == 0) {
-            return SimpleKey.EMPTY;
+            return CacheKey.EMPTY;
         }
         if (args.length == 1) {
             var single = args[0];
@@ -15,7 +15,7 @@ public final class SimpleKeyGenerator implements KeyGenerator {
                 return single;
             }
         }
-        return new SimpleKey(args);
+        return new CacheKey(args);
     }
 
 }
