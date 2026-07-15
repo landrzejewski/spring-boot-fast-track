@@ -62,7 +62,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
     // Client scopes -> Client scope details (roles) -> Mapper details -> Add to userinfo on realm-roles (set enabled) (Keycloak Admin console)
     private void userInfoCustomizer(OAuth2LoginConfigurer<HttpSecurity>.UserInfoEndpointConfig userInfoEndpointConfig) {
-        userInfoEndpointConfig.userAuthoritiesMapper(new KeycloakAuthoritiesMapper());
+        userInfoEndpointConfig.userAuthoritiesMapper(new DefaultAuthoritiesMapper());
     }
 
     @Bean
