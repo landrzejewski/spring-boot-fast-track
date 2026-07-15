@@ -21,6 +21,11 @@ spring:
     # port: 27017
   messages:
     basename: exceptions
+#  security:
+#    user:
+#      name: user
+#      password: 123
+#      roles: ADMIN
 #  profiles:
 #    active: dev
 
