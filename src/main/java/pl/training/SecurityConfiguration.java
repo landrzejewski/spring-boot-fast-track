@@ -8,7 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import pl.training.security.CustomAuthenticationEntryPoint;
+import pl.training.security.TimeBasedAuthorizationManager;
 
 import java.util.List;
 
@@ -39,7 +44,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 // @EnableWebSecurity(debug = true)
 @Configuration
-public class SecurityConfiguration {
+public class SecurityConfiguration implements WebMvcConfigurer {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -88,14 +93,46 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(config -> config.ignoringRequestMatchers("/api/**"))
                 .cors(config -> config.configurationSource(request -> corsConfiguration()))
-                .httpBasic(withDefaults())
-                .formLogin(withDefaults())
+                .httpBasic(config -> config
+                        .realmName("training")
+                        .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                )
+                .formLogin(config -> config
+                        .loginPage("/login.html")
+                        .defaultSuccessUrl("/index.html")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        //.failureHandler((request, response, exception) -> {})
+                        //.successHandler((request, response, authentication) -> {})
+                )
                 .authorizeHttpRequests(config -> config
                         .requestMatchers("/login.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/actuator/**").authenticated()
-                        .anyRequest().hasRole("ADMIN")
+                        //.anyRequest().hasRole("ADMIN")
+                        .anyRequest().access(new TimeBasedAuthorizationManager())
+                )
+                .logout(config -> config
+                        .logoutRequestMatcher(requestMatcherBuilder().matcher("/logout.html"))
+                        .logoutSuccessUrl("/login.html")
+                        .invalidateHttpSession(true)
                 )
                 .build();
     }
 
+    @Bean
+    PathPatternRequestMatcher.Builder requestMatcherBuilder() {
+        return PathPatternRequestMatcher.withDefaults();
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("login.html").setViewName("login-form");
+        registry.addViewController("index.html").setViewName("index");
+        registry.addViewController("/").setViewName("index");
+    }
+
 }
+
+
+// admin -> admin
+// users -> admin, user
