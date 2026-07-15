@@ -21,6 +21,8 @@ spring:
     # port: 27017
   messages:
     basename: exceptions
+#  main:
+#    allow-circular-references: true
 #  security:
 #    user:
 #      name: user
@@ -38,3 +40,4 @@ card-number-length: 16
 #    web:
 #      exposure:
 #        include: '*'
+secret: sdfewrtfnmuiretynui
