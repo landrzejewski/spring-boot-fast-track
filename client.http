@@ -46,7 +46,8 @@ Content-Type: application/json
 GET http://localhost:8080/api/cards?pageSize=3&pageNumber=1
 #Authorization: Basic amFuOjEyMw==
 #Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo4MDAwIiwidXNlciI6ImphbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiZXhwIjoxNzg0MTE1MzUyfQ._EYupD47FMPUubUcPgZQRXyJgIw5wqZLbf8neLz-5CQ
-Authorization: API_KEY 1234567
+#Authorization: API_KEY 1234567
+Authorization: Bearer {{token}}
 Accept: application/json
 Content-Type: application/json
 
@@ -57,3 +58,33 @@ GET http://localhost:8080/api/users/me
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo4MDAwIiwidXNlciI6ImphbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiZXhwIjoxNzg0MTE1MzUyfQ._EYupD47FMPUubUcPgZQRXyJgIw5wqZLbf8neLz-5CQ
 Accept: application/json
 Content-Type: application/json
+
+###
+
+//@no-redirect
+//@no-cookie-jar
+POST http://localhost:8100/realms/training/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=training-client&grant_type=password&username=jan&password=123
+
+> {%
+    client.global.set('token', response.body.access_token);
+    client.global.set('refreshToken', response.body.refresh_token);
+%}
+
+###
+
+//@no-redirect
+//@no-cookie-jar
+POST http://localhost:8100/realms/training/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=training-client&grant_type=refresh_token&refresh_token={{ refreshToken }}
+
+> {%
+    client.global.set('token', response.body.access_token);
+    client.global.set('refreshToken', response.body.refresh_token);
+%}
+
+

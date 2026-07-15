@@ -21,6 +21,21 @@ spring:
     # port: 27017
   messages:
     basename: exceptions
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8100/realms/training
+     #--------------------------------------------------------
+      client:
+        registration:
+          keycloak:
+            client-id: training-client
+            scope:
+              - openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8100/realms/training
 #  main:
 #    allow-circular-references: true
 #  security:
