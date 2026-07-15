@@ -41,3 +41,4 @@ card-number-length: 16
 #      exposure:
 #        include: '*'
 secret: sdfewrtfnmuiretynui
+api-keys: 00001,00002
