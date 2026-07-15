@@ -47,3 +47,10 @@ GET http://localhost:8080/api/cards?pageSize=3&pageNumber=1
 Authorization: Basic amFuOjEyMw==
 Accept: application/json
 Content-Type: application/json
+
+###
+
+GET http://localhost:8080/api/users/me
+Authorization: Basic amFuOjEyMw==
+Accept: application/json
+Content-Type: application/json
