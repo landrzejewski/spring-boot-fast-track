@@ -1,62 +1,10 @@
-spring:
-  application:
-    name: cards
-  datasource:
-    url: jdbc:postgresql://localhost:5432/payments
-    username: admin
-    password: admin
-    driver-class-name: org.postgresql.Driver
-    hikari:
-      maximum-pool-size: 6
-  jpa:
-    generate-ddl: true
-#    hibernate:
-#      ddl-auto: create-drop
-  mongodb:
-    username: admin
-    password: admin
-    database: payments
-    authentication-database: admin
-    # host: localhost
-    # port: 27017
-  messages:
-    basename: exceptions
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8100/realms/training
-     #--------------------------------------------------------
-      client:
-        registration:
-          github:
-            client-id: Ov23litdQ5EyVj3vUIDR
-            client-secret: 8ab2c69d7336111724871b8a8c55f1cecbc756f0
-          keycloak:
-            client-id: training-client
-            scope:
-              - openid
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8100/realms/training
-#  main:
-#    allow-circular-references: true
-#  security:
-#    user:
-#      name: user
-#      password: 123
-#      roles: ADMIN
-#  profiles:
-#    active: dev
+app:
+  ldap:
+    url: ${APP_LDAP_URL:ldap://localhost:389}
+    base: dc=example,dc=org
+    manager-dn: cn=admin,dc=example,dc=org
+    manager-password: admin
 
 logging:
   level:
-    org.springframework: info
-card-number-length: 16
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: '*'
-secret: sdfewrtfnmuiretynui
-api-keys: 00001,00002
+    org.springframework.security: DEBUG
